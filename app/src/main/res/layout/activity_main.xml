@@ -2,32 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/fab_margin"
-    >
+    tools:context=".MainActivity">
 
-    <include layout="@layout/gamestats"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/gamestats"
-        />
-
-    <include layout="@layout/gameresult"
-        android:id="@+id/gameresult"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/gamestats"
-        app:layout_constraintBottom_toTopOf="@id/gameinput"
-        />
-
-    <include layout="@layout/gameinput"
-        android:id="@+id/gameinput"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/game_fragment"
+        android:name="com.payxpert.game.HangmanFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="@dimen/fab_margin"
-        />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@
     <string name="next_guess">My next guess:</string>
     <string name="try_guess">Try to guess the word !</string>
     <string name="ok">OK</string>
-    <string name="hint_letter_to_guess">Enter a letter to guess</string>
+    <string name="hint_letter_to_guess">"?"</string>
     <plurals name="tries_left">
         <item quantity="zero">No tries left !</item>
         <item quantity="one">You have 1 try left…</item>
