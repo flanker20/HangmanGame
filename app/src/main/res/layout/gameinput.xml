@@ -22,17 +22,17 @@
             android:text="@string/next_guess"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/txtLetter"
+            app:layout_constraintEnd_toStartOf="@id/txtCharToSubmit"
             />
 
         <EditText
-            android:id="@+id/txtLetter"
+            android:id="@+id/txtCharToSubmit"
             android:layout_width="55dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/txtLetter"
+            app:layout_constraintBottom_toBottomOf="@id/txtCharToSubmit"
             android:layout_margin="@dimen/fab_margin"
             android:inputType="text|textCapCharacters"
             android:maxLength="1"
@@ -43,13 +43,13 @@
             />
 
         <Button
-            android:id="@+id/newLetter"
+            android:id="@+id/btnSubmitChar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ok"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/txtLetter"
+            app:layout_constraintStart_toEndOf="@id/txtCharToSubmit"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

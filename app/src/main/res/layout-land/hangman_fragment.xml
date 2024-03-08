@@ -20,7 +20,7 @@
         android:layout_margin="@dimen/fab_margin">
 
         <include
-            android:id="@+id/fragment_gamestats"
+            android:id="@+id/gamestats"
             layout="@layout/gamestats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -30,21 +30,21 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="#000"
-            app:layout_constraintBottom_toBottomOf="@id/fragment_gamestats"
+            app:layout_constraintBottom_toBottomOf="@id/gamestats"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_gamestats"
+            app:layout_constraintTop_toBottomOf="@id/gamestats"
             app:layout_constraintVertical_bias="0.975"/>
 
         <include
-            android:id="@+id/fragment_gameresult"
+            android:id="@+id/gameresult"
             layout="@layout/gameresult"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_gamestats"
+            app:layout_constraintTop_toBottomOf="@id/gamestats"
             app:layout_constraintWidth_percent="0.50" />
 
         <View
@@ -53,21 +53,21 @@
             android:layout_height="0dp"
             android:background="#000"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/fragment_gameinput"
+            app:layout_constraintEnd_toStartOf="@id/gameinput"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toEndOf="@id/fragment_gameresult"
-            app:layout_constraintTop_toBottomOf="@id/fragment_gamestats"
+            app:layout_constraintStart_toEndOf="@id/gameresult"
+            app:layout_constraintTop_toBottomOf="@id/gamestats"
             app:layout_constraintVertical_bias="0.975"/>
 
         <include
-            android:id="@+id/fragment_gameinput"
+            android:id="@+id/gameinput"
             layout="@layout/gameinput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/fragment_gameresult"
-            app:layout_constraintTop_toBottomOf="@id/fragment_gamestats" />
+            app:layout_constraintStart_toEndOf="@id/gameresult"
+            app:layout_constraintTop_toBottomOf="@id/gamestats" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -10,6 +10,8 @@ import com.payxpert.game.Utils.Companion.unmask
  * ViewModel containing the app data and methods to process the data
  */
 class HangmanViewModel : ViewModel() {
+    private val TAG = HangmanViewModel::class.java.simpleName
+
     private val _score = MutableLiveData(0)
     val score: LiveData<Int>
         get() = _score
@@ -23,6 +25,9 @@ class HangmanViewModel : ViewModel() {
         get() = _tries
 
     private val _wordToFind = MutableLiveData<String>()
+    val wordToFind: LiveData<String>
+        get() = _wordToFind
+
     private val _maskedWord = MutableLiveData<String>()
     val maskedWord: LiveData<String>
         get() = _maskedWord
@@ -31,12 +36,6 @@ class HangmanViewModel : ViewModel() {
     private var usedWordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
 
-    private var isGameOver: Boolean = false
-
-
-    init {
-        getNextWord()
-    }
 
     /*
      * Updates currentWord and currentScrambledWord with the next word.
@@ -50,6 +49,8 @@ class HangmanViewModel : ViewModel() {
         _games.value = _games.value?.inc()
         _tries.value = 10
         _maskedWord.value = "".padEnd(currentWord.length,'_')
+
+        Log.i(TAG, "attempts = "+_games.value)
     }
 
     /*
@@ -60,13 +61,12 @@ class HangmanViewModel : ViewModel() {
         _games.value = 0
         usedWordsList.clear()
         getNextWord()
-        isGameOver = false
     }
 
     /*
     * Increases the game score if the word is completed before 10 attempts
     */
-    private fun increaseScore() {
+    fun increaseScore() {
         _score.value = _score.value?.inc()
     }
 
@@ -82,6 +82,4 @@ class HangmanViewModel : ViewModel() {
         _tries.value = _tries.value?.dec()
         return false
     }
-
-    fun isGameOver() = isGameOver
 }
