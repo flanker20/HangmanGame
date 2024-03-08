@@ -35,30 +35,40 @@ class HangmanViewModel : ViewModel() {
     // List of words used in the game
     private var usedWordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
-
+    private var isGameStarted = false
 
     /*
      * Updates currentWord and currentScrambledWord with the next word.
      */
     fun getNextWord() {
-        currentWord = Utils.getNotUsedWord(usedWordsList)
+        if (!isGameStarted) {
+            isGameStarted = true
+            currentWord = Utils.getNotUsedWord(usedWordsList)
 
-        Log.d("Hangman", "currentWord= $currentWord")
-        _wordToFind.value = currentWord
+            Log.d("Hangman", "currentWord= $currentWord")
+            _wordToFind.value = currentWord
 
-        _games.value = _games.value?.inc()
-        _tries.value = 10
-        _maskedWord.value = "".padEnd(currentWord.length,'_')
+            _tries.value = 10
+            _maskedWord.value = "".padEnd(currentWord.length, '_')
+            _games.value = _games.value?.inc()
 
-        Log.i(TAG, "attempts = "+_games.value)
+            Log.i(TAG, "new game score=${score.value} games=${games.value}")
+        } else {
+            Log.d(TAG, "Game already started")
+        }
+    }
+
+    fun setScores(score: Int, games: Int) {
+        Log.i(TAG, "set scores=$score games=$games")
+        _score.value = score
+        _games.value = games
     }
 
     /*
      * Re-initializes the game data to restart the game.
      */
     fun resetScores() {
-        _score.value = 0
-        _games.value = 0
+        setScores(0,0)
         usedWordsList.clear()
         getNextWord()
     }
@@ -66,8 +76,11 @@ class HangmanViewModel : ViewModel() {
     /*
     * Increases the game score if the word is completed before 10 attempts
     */
-    fun increaseScore() {
-        _score.value = _score.value?.inc()
+    fun endGame(gameResult: Boolean) {
+        if (gameResult) {
+            _score.value = _score.value?.inc()
+        }
+        isGameStarted = false
     }
 
     /*

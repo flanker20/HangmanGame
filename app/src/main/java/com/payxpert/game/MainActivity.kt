@@ -1,14 +1,14 @@
 package com.payxpert.game
 
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.payxpert.game.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private val TAG = "Hangman ${MainActivity::class.java.simpleName}"
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: HangmanViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +16,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        Log.i(TAG, "##############################  START  ##############################")
     }
 }

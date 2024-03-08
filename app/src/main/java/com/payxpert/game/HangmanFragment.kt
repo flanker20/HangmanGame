@@ -8,8 +8,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.payxpert.game.data.SettingsDataStore
+import com.payxpert.game.data.dataStore
 import com.payxpert.game.databinding.HangmanFragmentBinding
+import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
 
 /**
  * Fragment where the game is played, contains the game logic.
@@ -26,6 +31,8 @@ class HangmanFragment : Fragment() {
     // first fragment.
     private val viewModel: HangmanViewModel by viewModels()
 
+    private lateinit var settingsDataStore: SettingsDataStore
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +44,7 @@ class HangmanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i(TAG, "onViewCreated")
 
         // Set the viewModel for data binding - this allows the bound layout access
         // to all the data in the VieWModel
@@ -49,7 +57,29 @@ class HangmanFragment : Fragment() {
         binding.gameinput.btnSubmitChar.setOnClickListener { onSubmitChar() }
         binding.gamestats.btnReset.setOnClickListener{ onResetScore() }
 
-        startNewGame()
+        getScoresFromDatastore()
+    }
+
+    private fun getScoresFromDatastore() {
+        Log.d(TAG, "getScoresFromDatastore")
+        settingsDataStore = SettingsDataStore(requireContext().dataStore)
+        lifecycleScope.launch {
+            settingsDataStore.preferenceFlow.collect { up ->
+                viewModel.setScores(up.score, up.games)
+                this.coroutineContext.job.cancel()
+                startNewGame()
+            }
+        }
+    }
+
+    /*
+    * start a new game.
+    */
+    private fun startNewGame() {
+        Log.d(TAG, "startNewGame")
+        viewModel.getNextWord()
+        setMaskedWord()
+        displayStats()
     }
 
     private fun onResetScore() {
@@ -67,22 +97,29 @@ class HangmanFragment : Fragment() {
             val charToTest = charSubmitted[0]
 
             viewModel.isCharInWord(charToTest)
+            displayStats() // games stats updates after the first character submitted
 
             setMaskedWord()
             binding.gameinput.txtCharToSubmit.text.clear()
             if (isComplete(viewModel.maskedWord.value)) {
-                viewModel.increaseScore()
+                Log.i(TAG,"Success")
+                viewModel.endGame(true)
                 displayStats()
                 showFinalScoreDialog(getString(R.string.you_scored, viewModel.score.value, viewModel.games.value))
             } else if (0 == viewModel.tries.value) {
+                viewModel.endGame(false)
                 showFinalScoreDialog(getString(R.string.you_loose, viewModel.wordToFind.value))
             }
         }
     }
 
     private fun displayStats() {
-        binding.gamestats.txtGames.text = viewModel.games.value.toString()
-        binding.gamestats.txtVictories.text = viewModel.score.value.toString()
+        val games = viewModel.games.value.toString()
+        val score = viewModel.score.value.toString()
+        Log.i(TAG, "displayStats score=$score games=$games")
+        binding.gamestats.txtGames.text = games
+        binding.gamestats.txtVictories.text = score
+        viewLifecycleOwner.lifecycleScope.launch { settingsDataStore.saveScoreToPreferencesStore(viewModel.score.value!!, viewModel.games.value!!, requireContext()) }
     }
 
     private fun isComplete(maskedWord: String?): Boolean {
@@ -110,16 +147,6 @@ class HangmanFragment : Fragment() {
                 startNewGame()
             }
             .show()
-    }
-
-    /*
-     * Re-initializes the data in the ViewModel and updates the views with the new data, to
-     * restart the game.
-     */
-    private fun startNewGame() {
-        viewModel.getNextWord()
-        setMaskedWord()
-        displayStats()
     }
 
     /*
