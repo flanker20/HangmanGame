@@ -25,6 +25,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt3" />
 
+    <ImageView
+        android:id="@+id/imgPendu"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintWidth_percent="0.25"
+        android:src="@drawable/pendu10"
+        app:layout_constraintTop_toBottomOf="@id/triesLeft"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:importantForAccessibility="no"
+        />
+
     <TextView
         android:id="@+id/resultWord"
         android:layout_margin="@dimen/fab_margin"
@@ -36,7 +49,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/triesLeft"
+        app:layout_constraintTop_toBottomOf="@id/imgPendu"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
